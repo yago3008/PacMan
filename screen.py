@@ -61,11 +61,12 @@ def manage_screen(pacman_player, wall_rects=None, dot_rects=None, big_dot_rects=
         dot_radius = min(tile_width, tile_height) // 5
         return pygame.Rect(center[0] - dot_radius, center[1] - dot_radius, dot_radius * 2, dot_radius * 2)
 
-    def draw_big_dot_at(pos):
-        x, y = pos
+    def create_big_dot_rect(x, y):
         center = (x + tile_width // 2, y + tile_height // 2)
         radius = min(tile_width, tile_height) // 3
-        pygame.draw.circle(SCREEN, (255, 255, 255), center, radius)
+        return pygame.Rect(center[0] - radius, center[1] - radius, radius * 2, radius * 2)
+
+  
 
     if first_run:
         wall_rects = []
@@ -82,7 +83,7 @@ def manage_screen(pacman_player, wall_rects=None, dot_rects=None, big_dot_rects=
                 elif tile == ".":
                     dot_rects.append(create_dot_rect(x, y))
                 elif tile == "*":
-                    big_dot_rects.append((x, y))
+                    big_dot_rects.append(create_big_dot_rect(x, y))
 
     def draw_walls():
         for rect in wall_rects:
@@ -99,14 +100,16 @@ def manage_screen(pacman_player, wall_rects=None, dot_rects=None, big_dot_rects=
             center = dot.center
             radius = dot.width // 2
             pygame.draw.circle(SCREEN, (255, 255, 255), center, radius)
+            
+    def draw_big_dot_at(rect):
+        pygame.draw.circle(SCREEN, (255, 255, 255), rect.center, rect.width // 2)
+
 
     draw_walls()
     draw_dots()
+    for rect in big_dot_rects:
+        draw_big_dot_at(rect)
 
-    # Desenha os big dots todo frame
-    if big_dot_rects:
-        for pos in big_dot_rects:
-            draw_big_dot_at(pos)
 
     pacman_player.draw(SCREEN)
 
