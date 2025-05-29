@@ -7,7 +7,7 @@ class PacMan:
         self.y = display_h - 100
         self.speed = 4
         self.pattern = pacman_pattern
-        self.pixel_scale = 4
+        self.pixel_scale = 5
         self.score = 0
         self.powerup = False
 
@@ -84,9 +84,19 @@ class PacMan:
                 print(self.score)
                 self.activate_powerup()
     
+    def check_enemy_collision(self, enemies):
+        for enemy in enemies:
+            if self.rect.colliderect(enemy.rect):
+                if not self.powerup:
+                    print("Colidiu com um inimigo!")
+                else:
+                    enemies.remove(enemy)
+                    self.score += 20
+                    print("matou o inimigo")
+
     def activate_powerup(self):
         self.powerup = True
-        self.powerup_end_time = pygame.time.get_ticks() + 2500
+        self.powerup_end_time = pygame.time.get_ticks() + 25000
         print('powerup active')
 
     def update(self):
@@ -94,8 +104,12 @@ class PacMan:
             self.powerup = False
             print("Powerup desativado")
 
-            
-
+    def call_funcs(self,DISPLAY_W, DISPLAY_H, wall_rects, dot_rects, big_dot_rects, enemies):
+        self.move(DISPLAY_W, DISPLAY_H, wall_rects)
+        self.check_dot_collision(dot_rects)
+        self.check_big_dot_collision(big_dot_rects)
+        self.update()
+        self.check_enemy_collision(enemies)
 
     def draw(self, display):
         draw_pixel_art(self.pattern, self.x, self.y, self.pixel_scale, display)

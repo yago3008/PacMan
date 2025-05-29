@@ -1,15 +1,20 @@
 import pygame
 from pacman import PacMan
-from enemy import Enemy
-from screen import manage_screen, DISPLAY_W, DISPLAY_H, SCREEN
+from enemy import spawn_enemies
+from screen import manage_screen, DISPLAY_W, DISPLAY_H, MIDDLE_X, MIDDLE_Y
 
 pygame.init()
 
 pacman = PacMan(DISPLAY_W, DISPLAY_H)
-enemy = Enemy(x=100, y=100)
+enemies = spawn_enemies(MIDDLE_X, MIDDLE_Y)
+
+
+def update_enemies(wall_rects, enemies):
+    for enemy in enemies:
+        enemy.update(wall_rects, pacman.powerup)
 
 def main():
-    wall_rects, dot_rects, big_dot_rects = manage_screen(pacman, enemy, wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=True)
+    wall_rects, dot_rects, big_dot_rects = manage_screen(pacman, enemies, wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=True)
 
     running = True
     while running and pacman.score < 230:
@@ -19,14 +24,10 @@ def main():
             ):
                 running = False
 
-        pacman.move(DISPLAY_W, DISPLAY_H, wall_rects)
-        pacman.check_dot_collision(dot_rects)
-        pacman.check_big_dot_collision(big_dot_rects)
-        pacman.update()
+        update_enemies(wall_rects, enemies)
 
-        enemy.update(wall_rects, pacman.powerup)
-
-        manage_screen (pacman, enemy, wall_rects, dot_rects, big_dot_rects)
+        pacman.call_funcs(DISPLAY_W, DISPLAY_H, wall_rects, dot_rects, big_dot_rects, enemies)
+        manage_screen (pacman, enemies, wall_rects, dot_rects, big_dot_rects)
 
     pygame.quit()
 

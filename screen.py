@@ -5,6 +5,8 @@ DISPLAY_H = 600
 SCREEN = pygame.display.set_mode((DISPLAY_W, DISPLAY_H))
 CLOCK = pygame.time.Clock()
 FPS = 60
+MIDDLE_X = 380
+MIDDLE_Y = 280
 pygame.display.set_caption("Forti-Pac")
 
 
@@ -38,7 +40,7 @@ pacman_map = [
         "############################"
     ]
 
-def manage_screen(pacman_player, enemy,  wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=False):
+def manage_screen(pacman_player, enemies,  wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=False):
     SCREEN.fill((0, 0, 0))
 
     tile_width = DISPLAY_W // len(pacman_map[0]) + 1
@@ -111,8 +113,9 @@ def manage_screen(pacman_player, enemy,  wall_rects=None, dot_rects=None, big_do
 
 
     pacman_player.draw(SCREEN)
-    enemy.draw(SCREEN)
-    
+    for enemy in enemies:
+        enemy.draw(SCREEN)
+
     pygame.display.flip()
     CLOCK.tick(FPS)
 
