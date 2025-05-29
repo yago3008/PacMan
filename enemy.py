@@ -11,12 +11,10 @@ class Enemy:
         self.y = y + (32 - self.height) // 2
         self.rect = pygame.Rect(x, y, self.width, self.height)
         
-        self.color = (255, 0, 0)  # vermelho
         self.speed = 2
         self.direction = random.choice(["up", "down", "left", "right"])
         
-        self.scared = False  # ativa quando o jogador pega big dot
-        self.scared_color = (0, 0, 255)  # azul
+        self.scared = False
 
     def update(self, wall_rects, player_powerup):
         self.scared = player_powerup
@@ -37,7 +35,6 @@ class Enemy:
         else:
             self.direction = random.choice(["up", "down", "left", "right"])
 
-    def draw(self):
-        draw_pixel_art(enemy_pattern, self.x, self.y, 4, SCREEN)
-        print("desenhando")
+    def draw(self, screen):
+        draw_pixel_art(enemy_pattern, self.x, self.y, 4, screen)
         

@@ -1,5 +1,4 @@
 import pygame
-from entities import draw_pixel_art
 
 DISPLAY_W = 800
 DISPLAY_H = 600
@@ -39,7 +38,7 @@ pacman_map = [
         "############################"
     ]
 
-def manage_screen(pacman_player, wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=False):
+def manage_screen(pacman_player, enemy,  wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=False):
     SCREEN.fill((0, 0, 0))
 
     tile_width = DISPLAY_W // len(pacman_map[0]) + 1
@@ -112,7 +111,8 @@ def manage_screen(pacman_player, wall_rects=None, dot_rects=None, big_dot_rects=
 
 
     pacman_player.draw(SCREEN)
-
+    enemy.draw(SCREEN)
+    
     pygame.display.flip()
     CLOCK.tick(FPS)
 

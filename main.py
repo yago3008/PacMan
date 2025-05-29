@@ -9,7 +9,7 @@ pacman = PacMan(DISPLAY_W, DISPLAY_H)
 enemy = Enemy(x=100, y=100)
 
 def main():
-    wall_rects, dot_rects, big_dot_rects = manage_screen(pacman, wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=True)
+    wall_rects, dot_rects, big_dot_rects = manage_screen(pacman, enemy, wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=True)
 
     running = True
     while running and pacman.score < 230:
@@ -25,9 +25,8 @@ def main():
         pacman.update()
 
         enemy.update(wall_rects, pacman.powerup)
-        enemy.draw()
 
-        manage_screen (pacman, wall_rects, dot_rects, big_dot_rects)
+        manage_screen (pacman, enemy, wall_rects, dot_rects, big_dot_rects)
 
     pygame.quit()
 
