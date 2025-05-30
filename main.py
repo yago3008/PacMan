@@ -17,7 +17,7 @@ def main():
     wall_rects, dot_rects, big_dot_rects = manage_screen(pacman, enemies, wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=True)
 
     running = True
-    while running and pacman.score < 230:
+    while running and pacman.score < 250 and len(enemies) > 0:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (
                 event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE

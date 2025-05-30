@@ -21,7 +21,7 @@ class PacMan:
         
         self.rect.topleft = (self.x, self.y)
 
-    def move(self, display_w, display_h, wall_rects):
+    def move(self, wall_rects):
         keys = pygame.key.get_pressed()
 
         movimento_x = 0
@@ -35,7 +35,6 @@ class PacMan:
             movimento_y = -self.speed
         elif keys[pygame.K_DOWN]:
             movimento_y = self.speed
-
        
         if movimento_x != 0:
             step_x = int(abs(movimento_x) / movimento_x)
@@ -57,9 +56,14 @@ class PacMan:
                 else:
                     self.y += step_y
                     self.rect.topleft = (self.x, self.y)
+        self.change_sides()
 
-
-
+    def change_sides(self):
+        print(self.x)
+        if self.x <= -30:
+            self.x = 800
+        elif self.x >= 805:
+            self.x = -20
 
     def check_dot_collision(self, dot_rects):
         for dot in dot_rects[:]:
@@ -97,7 +101,7 @@ class PacMan:
             print("Powerup desativado")
 
     def call_funcs(self,DISPLAY_W, DISPLAY_H, wall_rects, dot_rects, big_dot_rects, enemies):
-        self.move(DISPLAY_W, DISPLAY_H, wall_rects)
+        self.move(wall_rects)
         self.check_dot_collision(dot_rects)
         self.check_big_dot_collision(big_dot_rects)
         self.update()
