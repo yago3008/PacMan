@@ -38,9 +38,31 @@ class Enemy:
         else:
             self.direction = random.choice(["up", "down", "left", "right"])
 
-    def draw(self, screen):
-        draw_pixel_art(enemy_pattern, self.x, self.y, 4, screen)
+    def draw(self, screen, pacman):
+        if not pacman.powerup:
+            draw_pixel_art(enemy_pattern, self.x, self.y, 4, screen)
+        else:
+            draw_pixel_art(self.ghost_mode(enemy_pattern), self.x, self.y, 4, screen)     
     
+    def ghost_mode(self, pattern):
+        possible_substitutes = list('123456789ABCDEFG')
+        substitution_map = {}
+
+        result = []
+
+        for line in pattern:
+            new_line = ''
+            for char in line:
+                if char == ' ' or char == '2':
+                    new_line += char
+                else:
+                    if char not in substitution_map:
+                        substitute = random.choice([c for c in possible_substitutes if c not in substitution_map.values()])
+                        substitution_map[char] = substitute
+                    new_line += substitution_map[char]
+            result.append(new_line)
+
+        return result
 
 def spawn_enemies(MIDDLE_X, MIDDLE_Y):
     enemies = [Enemy(MIDDLE_X, MIDDLE_Y) for i in range(2)]

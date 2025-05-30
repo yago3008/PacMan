@@ -1,5 +1,5 @@
 import pygame
-from entities import pacman__pattern_left, pacman_pattern_rigth, pacman_pattern_up, pacman_pattern_down
+from entities import pacman__pattern_left, pacman_pattern_rigth, pacman_pattern_up, pacman_pattern_down, fortinet_coin, draw_pixel_art
 DISPLAY_W = 800
 DISPLAY_H = 600
 SCREEN = pygame.display.set_mode((DISPLAY_W, DISPLAY_H))
@@ -12,7 +12,7 @@ pygame.display.set_caption("Forti-Pac")
 
 pacman_map = [
         "############################",
-        "#*...........##...........*#",
+        "#*...........##...........F#",
         "#.####.#####.##.#####.####.#",
         "#.#  #.#   #.##.#   #.#  #.#",
         "#.####.#####.##.#####.####.#",
@@ -36,7 +36,7 @@ pacman_map = [
         "###.##.##.########.##.##.###",
         "#......##....##....##......#",
         "#.##########.##.##########.#",
-        "#*........................*#",
+        "#*........................F#",
         "############################"
     ]
 
@@ -85,6 +85,8 @@ def manage_screen(pacman, enemies,  wall_rects=None, dot_rects=None, big_dot_rec
                     dot_rects.append(create_dot_rect(x, y))
                 elif tile == "*":
                     big_dot_rects.append(create_big_dot_rect(x, y))
+                elif tile == "F":
+                    big_dot_rects.append(create_big_dot_rect(x - 12,y))
 
     def draw_walls():
         for rect in wall_rects:
@@ -103,7 +105,7 @@ def manage_screen(pacman, enemies,  wall_rects=None, dot_rects=None, big_dot_rec
             pygame.draw.circle(SCREEN, (255, 255, 255), center, radius)
             
     def draw_big_dot_at(rect):
-        pygame.draw.circle(SCREEN, (255, 255, 255), rect.center, rect.width // 2)
+        draw_pixel_art(fortinet_coin, rect.center[0] - 13, rect.center[1] - 10, 2, SCREEN)
 
 
     draw_walls()
@@ -123,7 +125,7 @@ def manage_screen(pacman, enemies,  wall_rects=None, dot_rects=None, big_dot_rec
         pacman.draw(SCREEN, pacman_pattern_rigth)
 
     for enemy in enemies:
-        enemy.draw(SCREEN)
+        enemy.draw(SCREEN, pacman)
 
     pygame.display.flip()
     CLOCK.tick(FPS)
