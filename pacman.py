@@ -17,15 +17,7 @@ class PacMan:
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
 
-    def apply_boundaries(self, display_w, display_h):
-        if self.x < 0:
-            self.x = 0
-        if self.x > display_w - self.width:
-            self.x = display_w - self.width
-        if self.y < 0:
-            self.y = 0
-        if self.y > display_h - self.height:
-            self.y = display_h - self.height
+
         
         self.rect.topleft = (self.x, self.y)
 
@@ -66,7 +58,7 @@ class PacMan:
                     self.y += step_y
                     self.rect.topleft = (self.x, self.y)
 
-        self.apply_boundaries(display_w, display_h)
+
 
 
     def check_dot_collision(self, dot_rects):
