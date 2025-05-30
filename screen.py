@@ -1,5 +1,5 @@
 import pygame
-
+from entities import pacman__pattern_left, pacman_pattern_rigth, pacman_pattern_up, pacman_pattern_down
 DISPLAY_W = 800
 DISPLAY_H = 600
 SCREEN = pygame.display.set_mode((DISPLAY_W, DISPLAY_H))
@@ -40,7 +40,7 @@ pacman_map = [
         "############################"
     ]
 
-def manage_screen(pacman_player, enemies,  wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=False):
+def manage_screen(pacman, enemies,  wall_rects=None, dot_rects=None, big_dot_rects=None, first_run=False):
     SCREEN.fill((0, 0, 0))
 
     tile_width = DISPLAY_W // len(pacman_map[0]) + 1
@@ -111,8 +111,17 @@ def manage_screen(pacman_player, enemies,  wall_rects=None, dot_rects=None, big_
     for rect in big_dot_rects:
         draw_big_dot_at(rect)
 
+    if pacman.direction == 'left':
+        pacman.draw(SCREEN, pacman__pattern_left)
+    elif pacman.direction == 'right':
+        pacman.draw(SCREEN, pacman_pattern_rigth)
+    elif pacman.direction == 'up':
+        pacman.draw(SCREEN, pacman_pattern_up)
+    elif pacman.direction == 'down':
+        pacman.draw(SCREEN, pacman_pattern_down)
+    else:
+        pacman.draw(SCREEN, pacman_pattern_rigth)
 
-    pacman_player.draw(SCREEN)
     for enemy in enemies:
         enemy.draw(SCREEN)
 

@@ -26,7 +26,7 @@ def main():
 
         update_enemies(wall_rects, enemies)
 
-        pacman.call_funcs(DISPLAY_W, DISPLAY_H, wall_rects, dot_rects, big_dot_rects, enemies)
+        pacman.call_funcs(wall_rects, dot_rects, big_dot_rects, enemies)
         manage_screen (pacman, enemies, wall_rects, dot_rects, big_dot_rects)
 
     pygame.quit()

@@ -1,15 +1,17 @@
 import pygame
-from entities import draw_pixel_art, pacman_pattern
+from entities import draw_pixel_art, pacman_pattern_rigth
+from screen import SCREEN
 
 class PacMan:
     def __init__(self, display_w, display_h):
         self.x = display_w // 3
         self.y = display_h - 100
         self.speed = 4
-        self.pattern = pacman_pattern
+        self.pattern = pacman_pattern_rigth
         self.pixel_scale = 5
         self.score = 0
         self.powerup = False
+        self.direction = ''
 
         self.width = len(self.pattern[0]) * self.pixel_scale
         self.height = len(self.pattern) * self.pixel_scale
@@ -29,12 +31,16 @@ class PacMan:
 
         if keys[pygame.K_LEFT]:
             movimento_x = -self.speed
+            self.direction = 'left'
         elif keys[pygame.K_RIGHT]:
             movimento_x = self.speed
+            self.direction = 'right'
         if keys[pygame.K_UP]:
             movimento_y = -self.speed
+            self.direction = 'up'
         elif keys[pygame.K_DOWN]:
             movimento_y = self.speed
+            self.direction = 'down'
        
         if movimento_x != 0:
             step_x = int(abs(movimento_x) / movimento_x)
@@ -81,8 +87,9 @@ class PacMan:
                 self.activate_powerup()
     
     def check_enemy_collision(self, enemies):
+        reduced_rect = self.rect.inflate(-15, -15)
         for enemy in enemies:
-            if self.rect.colliderect(enemy.rect):
+            if reduced_rect.colliderect(enemy.rect):
                 if not self.powerup:
                     print("Colidiu com um inimigo!")
                 else:
@@ -100,12 +107,12 @@ class PacMan:
             self.powerup = False
             print("Powerup desativado")
 
-    def call_funcs(self,DISPLAY_W, DISPLAY_H, wall_rects, dot_rects, big_dot_rects, enemies):
+    def call_funcs(self, wall_rects, dot_rects, big_dot_rects, enemies):
         self.move(wall_rects)
         self.check_dot_collision(dot_rects)
         self.check_big_dot_collision(big_dot_rects)
         self.update()
         self.check_enemy_collision(enemies)
 
-    def draw(self, display):
-        draw_pixel_art(self.pattern, self.x, self.y, self.pixel_scale, display)
+    def draw(self, display, pattern):
+        draw_pixel_art(pattern, self.x, self.y, self.pixel_scale, display)

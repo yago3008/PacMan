@@ -43,6 +43,6 @@ class Enemy:
     
 
 def spawn_enemies(MIDDLE_X, MIDDLE_Y):
-    enemies = [Enemy(MIDDLE_X + (i * (random.randint(-40, 40))), MIDDLE_Y) for i in range(2)]
+    enemies = [Enemy(MIDDLE_X, MIDDLE_Y) for i in range(2)]
     return enemies
         
